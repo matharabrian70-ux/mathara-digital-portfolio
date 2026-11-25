@@ -26,9 +26,8 @@ Requirements: Node.js 22 or later and Python 3 (for the static local web server)
 
 Run the pure validation tests:
 
-```bash
-npm test
-```
+- PowerShell on Windows: `npm.cmd test`
+- Other shells: `npm test`
 
 Serve the prototype locally so the ES modules load correctly:
 
