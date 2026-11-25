@@ -1,0 +1,8 @@
+{
+  "name": "mathara-website-to-ordering-bridge-prototype",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test draft-model.test.mjs"
+  }
+}
