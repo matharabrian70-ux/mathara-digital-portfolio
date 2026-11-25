@@ -17,7 +17,7 @@ export function canApproveMenuItem(item) {
 
 function parseCsvRows(input) {
   if (typeof input !== "string") throw new TypeError("CSV input must be text.");
-  const text = input.replace(/^\\uFEFF/, "");
+  const text = input.replace(/^\uFEFF/, "");
   const rows = [];
   let row = [];
   let cell = "";
@@ -34,8 +34,8 @@ function parseCsvRows(input) {
     } else if (current === "," && !quoted) {
       row.push(cell);
       cell = "";
-    } else if ((current === "\\n" || current === "\\r") && !quoted) {
-      if (current === "\\r" && next === "\\n") i += 1;
+    } else if ((current === "\n" || current === "\r") && !quoted) {
+      if (current === "\r" && next === "\n") i += 1;
       row.push(cell);
       if (row.some(value => value.trim() !== "")) rows.push(row);
       row = [];
