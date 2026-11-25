@@ -1,0 +1,60 @@
+name: Product or software enquiry
+description: Request information about a Mathara Digitals system or project.
+title: "[Product enquiry] "
+labels: ["product-enquiry"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please share only non-sensitive project information. Do not post passwords, API keys, payment information, private customer data or confidential documents in a public GitHub issue.
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product or service
+      options:
+        - Restaurant Direct Ordering System
+        - Website-to-Ordering Bridge
+        - Restaurant Ops Command Center
+        - Direct-Ordering Readiness Toolkit
+        - Menu Engineering & Profitability Workbook
+        - Restaurant Manager SOP Pack
+        - QR Menu & Ordering Launch Kit
+        - Hospitality Website Conversion System
+        - Hospitality Multi-Branch Control
+        - Agency / Client Delivery Systems
+        - Custom website or automation project
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: website
+    attributes:
+      label: Public business website
+      description: Optional. A public URL only; never send credentials.
+      placeholder: https://example.com
+  - type: dropdown
+    id: locations
+    attributes:
+      label: Number of locations
+      options:
+        - One
+        - 2–5
+        - 6–20
+        - 21+
+        - Not applicable
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: What are you trying to improve?
+      description: Describe the workflow or business outcome. Keep it general and avoid sensitive data.
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: I understand this request is public and will not include passwords, payment data or personal customer information.
+          required: true
