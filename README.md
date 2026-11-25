@@ -1,22 +1,31 @@
-# Brian Mathara — Personal Portfolio
+# Mathara Digitals
 
-A responsive portfolio website showcasing web development projects, product experiments, skills, and contact links.
+Official company website and product catalogue for **Mathara Digitals**.
+
+The site presents the company as a software and digital-systems studio focused on restaurant ordering, hospitality websites, business operations software and automation.
+
+## Brand and product integrity
+
+- Canonical public brand: **Mathara Digitals**.
+- DevPortfolio Pro is a legacy identity. Existing Whop product names and customer entitlements are retained until the seller account is correctly authenticated and a separate product-level review is approved.
+- The catalogue intentionally separates prepared resources, existing listings requiring verification, and systems still under development.
+- No live checkout or automated provisioning is advertised until the correct seller account, payment webhooks, production database, tenant isolation and end-to-end delivery checks are verified.
+- The Restaurant Website-to-Ordering Bridge is a planned onboarding workflow. A public URL may create a draft only; the merchant reviews and approves the extracted information and separately authorizes the chosen site integration. No website password is required or collected.
 
 ## Run locally
+
 Open `index.html` in a browser.
 
 ## Deploy
-The repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml`. In GitHub, open **Settings → Pages** and select **GitHub Actions** as the build and deployment source if Pages has not already been enabled.
 
-## Restaurant ordering walkthrough video
-Place the supplied video at:
+The repository uses GitHub Actions in `.github/workflows/deploy-pages.yml`. Configure GitHub Pages to use **GitHub Actions** under **Settings → Pages**.
 
-`assets/restaurant_ordering_system_explainer.mp4`
+## Core project links
 
-The portfolio includes an embedded player for the 57-second walkthrough. The video file itself still needs to be added to this repository before the player can stream it from the deployed site.
+- Restaurant Ordering Platform: https://github.com/matharabrian70-ux/restaurant-ordering-platform
+- Restaurant Business AI: https://github.com/matharabrian70-ux/restaurant-business-ai
+- Hospitality website demo: https://matharabrian70-ux.github.io/hotel-website-demo/
 
-## Accuracy notes
-- Restaurant Ordering Platform is an ongoing product build; the site describes planned and implemented areas without claiming verified commercial results.
-- Amani House is a fictional hotel website demo.
-- Restaurant Business AI and Autonomous Work Engine are experimental/in-progress projects.
-- Replace the sample contact email in `index.html` with a verified email address before distributing the portfolio.
+## Status note
+
+The website catalogue is a marketing and product-status surface. A product card does not by itself prove the product is publicly purchasable or production-ready. Update each product's status only when verified evidence exists.
