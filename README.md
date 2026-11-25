@@ -29,3 +29,10 @@ The repository uses GitHub Actions in `.github/workflows/deploy-pages.yml`. Conf
 ## Status note
 
 The website catalogue is a marketing and product-status surface. A product card does not by itself prove the product is publicly purchasable or production-ready. Update each product's status only when verified evidence exists.
+
+## Browser prototypes
+
+- Website-to-Ordering Bridge: `demos/website-to-ordering-bridge/` — browser-only merchant onboarding prototype. It captures a public URL as a reference, accepts merchant-provided menu CSV, supports edits and per-item approval, and exports a JSON/CSV draft. It does not fetch the website, connect an account, publish or change the merchant's site.
+- Menu Engineering Workbench: `demos/menu-engineering-workbench/` — browser-only menu contribution calculator with sales volume and relative menu categories.
+
+Both demos are prototypes, not production SaaS services or live Whop products. They do not have a backend, login, shared data storage, billing or automated provisioning.
