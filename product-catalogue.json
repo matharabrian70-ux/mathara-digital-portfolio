@@ -26,9 +26,12 @@
       "name": "Website-to-Ordering Bridge",
       "category": "restaurant",
       "kind": "integration-onboarding",
-      "status": "roadmap",
+      "status": "interactive_browser_prototype",
       "checkout_enabled": false,
-      "delivery": "Public-site discovery to reviewable draft; merchant approval and separately authorized integration required."
+      "delivery": "Public-site discovery to reviewable draft; merchant approval and separately authorized integration required.",
+      "demo_path": "demos/website-to-ordering-bridge/",
+      "integration_live": false,
+      "public_site_fetch_enabled": false
     },
     {
       "name": "Restaurant Ops Command Center",
@@ -52,11 +55,12 @@
       "name": "Menu Engineering & Profitability Workbook",
       "category": "restaurant",
       "kind": "spreadsheet-workbook",
-      "status": "prepared_locally",
+      "status": "prepared_asset_with_interactive_browser_demo",
       "checkout_enabled": false,
       "assets": [
         "XLSX"
-      ]
+      ],
+      "demo_path": "demos/menu-engineering-workbench/"
     },
     {
       "name": "Restaurant Manager SOP Pack",
