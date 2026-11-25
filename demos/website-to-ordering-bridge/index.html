@@ -41,52 +41,5 @@
 </section>
 </main>
 <footer class="foot"><div class="wrap">© <span id="year"></span> Mathara Digitals · Merchant-controlled onboarding prototype · No passwords or payment credentials collected.</div></footer>
-<script>
-const $=id=>document.getElementById(id);
-let menuItems=[];
-const sample={name:"The Green Fork (Demo)",url:"https://example.com/green-fork",currency:"KES",timezone:"Africa/Nairobi",hours:"Mon–Sat 10:00–21:00",delivery:"Pickup available. Demo delivery radius: 5 km. All service details require merchant confirmation.",items:[
-{name:"Grilled Chicken Bowl",description:"Herb rice, grilled chicken, seasonal greens and house dressing.",category:"Bowls",price:850,approved:false},
-{name:"Garden Falafel Wrap",description:"Crispy falafel, fresh vegetables and tahini yoghurt.",category:"Wraps",price:620,approved:false},
-{name:"Mango Passion Juice",description:"Fresh mango and passion fruit blend.",category:"Drinks",price:280,approved:false},
-{name:"Chocolate Brownie",description:"Warm chocolate brownie (demo item).",category:"Desserts",price:350,approved:false}
-]};
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function validUrl(){const v=$("siteUrl").value.trim();if(!v)return "";try{const u=new URL(v);return ["http:","https:"].includes(u.protocol)?u.href:""}catch{return ""}}
-function markStage(n){for(let i=1;i<=4;i++)$("stage"+i).className=i<n?"done":i===n?"active":""}
-function render(){
- const root=$("items");$("count").textContent=menuItems.length+" ITEMS · "+menuItems.filter(x=>x.approved).length+" APPROVED";
- $("exportJson").disabled=menuItems.length===0;$("exportCsv").disabled=menuItems.length===0;
- if(!menuItems.length){root.innerHTML='<div class="empty">No menu items. Import a CSV, add an item, or load the sample venue.</div>';markStage(1);return}
- root.innerHTML=menuItems.map((x,i)=>'<article class="item" data-index="'+i+'"><div class="itemhead"><strong>Item '+String(i+1).padStart(2,"0")+'</strong><span class="'+(x.approved?"approved":"pending")+'">'+(x.approved?"MERCHANT APPROVED":"AWAITING REVIEW")+'</span></div><div class="itemgrid"><input aria-label="Item name" data-field="name" value="'+esc(x.name)+'" placeholder="Item name"><input aria-label="Category" data-field="category" value="'+esc(x.category)+'" placeholder="Category"><input aria-label="Price" data-field="price" type="number" min="0" step=".01" value="'+esc(x.price)+'" placeholder="Price"></div><textarea aria-label="Item description" data-field="description" placeholder="Description">'+esc(x.description)+'</textarea><div class="itemhead" style="margin-top:8px"><label class="toggle"><input type="checkbox" data-field="approved" '+(x.approved?"checked":"")+'> Confirmed by merchant</label><button class="btn ghost" data-remove="'+i+'" style="padding:6px 9px">Remove</button></div></article>').join("");
- root.querySelectorAll("[data-field]").forEach(el=>el.addEventListener("input",e=>{const card=e.target.closest("[data-index]"),i=Number(card.dataset.index),field=e.target.dataset.field;menuItems[i][field]=field==="price"?Number(e.target.value):field==="approved"?e.target.checked:e.target.value;if(field==="approved")render();else updateCounts()}));
- root.querySelectorAll("[data-remove]").forEach(el=>el.addEventListener("click",()=>{menuItems.splice(Number(el.dataset.remove),1);render()}));
- markStage(menuItems.some(x=>x.approved)?3:2);updateCounts();
-}
-function updateCounts(){$("count").textContent=menuItems.length+" ITEMS · "+menuItems.filter(x=>x.approved).length+" APPROVED";$("exportJson").disabled=!menuItems.length;$("exportCsv").disabled=!menuItems.length}
-function loadSample(){ $("siteUrl").value=sample.url;$("merchantName").value=sample.name;$("currency").value=sample.currency;$("timezone").value=sample.timezone;$("hours").value=sample.hours;$("delivery").value=sample.delivery;menuItems=sample.items.map(x=>({...x}));$("businessStatus").textContent="Synthetic demo profile loaded. No external website was accessed."; $("reviewStatus").textContent="Review and edit the sample menu, then approve each item to prepare an export.";render()}
-function clearDraft(){["siteUrl","merchantName","hours","delivery"].forEach(id=>$(id).value="");$("csvFile").value="";$("currency").value="KES";$("timezone").value="Africa/Nairobi";menuItems=[];$("businessStatus").textContent="Draft cleared in this browser session.";$("reviewStatus").textContent="No file was exported or published.";render();$("previewBox").classList.add("hidden")}
-function addItem(){menuItems.push({name:"",description:"",category:"",price:0,approved:false});render()}
-function parseCSV(text){
- const rows=[];let row=[],cell="",quoted=false;
- for(let i=0;i<text.length;i++){const c=text[i],n=text[i+1];if(c==='"'&&quoted&&n==='"'){cell+='"';i++}else if(c==='"'){quoted=!quoted}else if(c===','&&!quoted){row.push(cell);cell=""}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&n==='\n')i++;row.push(cell);if(row.some(v=>v.trim()))rows.push(row);row=[];cell=""}else cell+=c}
- row.push(cell);if(row.some(v=>v.trim()))rows.push(row);
- if(rows.length<2)throw new Error("CSV needs a header row and at least one menu item.");
- const headers=rows[0].map(v=>v.trim().toLowerCase());const ix=k=>headers.indexOf(k);
- if(ix("name")<0||ix("price")<0)throw new Error("CSV needs at least the columns: name, price.");
- return rows.slice(1).map(r=>({name:r[ix("name")]||"",description:ix("description")>=0?r[ix("description")]||"": "",category:ix("category")>=0?r[ix("category")]||"": "",price:Number(r[ix("price")]),approved:false})).filter(x=>x.name&&Number.isFinite(x.price)&&x.price>=0);
-}
-$("sample").addEventListener("click",loadSample);
-$("clear").addEventListener("click",clearDraft);
-$("addItem").addEventListener("click",addItem);
-$("import").addEventListener("click",async()=>{const f=$("csvFile").files[0];if(!f){$("businessStatus").textContent="Choose a CSV file first.";return}try{menuItems=parseCSV(await f.text());$("businessStatus").textContent="Imported "+menuItems.length+" menu rows locally. Every row still needs merchant approval.";$("reviewStatus").textContent="Imported rows are unapproved until the merchant confirms each item.";render()}catch(e){$("businessStatus").textContent=e.message}});
-function download(name,content,type){const a=document.createElement("a"),url=URL.createObjectURL(new Blob([content],{type}));a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
-function draftData(){return{schema:"mathara-website-to-ordering-draft-v1",brand:"Mathara Digitals",createdAt:new Date().toISOString(),mode:"browser-prototype",status:"review-draft-only",site:{publicUrl:validUrl(),merchantName:$("merchantName").value.trim(),currency:$("currency").value,timezone:$("timezone").value.trim(),openingHours:$("hours").value.trim(),deliveryNotes:$("delivery").value.trim()},source:{type:$("csvFile").files.length?"merchant-supplied-csv-or-edited-browser-data":"sample-or-manual-entry",networkFetchPerformed:false},items:menuItems.map(x=>({...x,approvedByMerchant:!!x.approved})),integration:{connected:false,merchantAuthorizationRecorded:false,websiteModified:false,published:false},security:{passwordsCollected:false,paymentCredentialsCollected:false},nextSteps:["Merchant confirms all items, descriptions and prices.","Merchant confirms taxes, options, hours, fulfilment and delivery areas.","Merchant separately authorizes an available integration.","Run acceptance tests before production publishing."]}}
-$("exportJson").addEventListener("click",()=>{const d=draftData();download("mathara-onboarding-draft.json",JSON.stringify(d,null,2),"application/json");$("reviewStatus").textContent="Draft JSON exported. Approved items: "+menuItems.filter(x=>x.approved).length+" / "+menuItems.length+". No connection or publication occurred.";markStage(4)});
-$("exportCsv").addEventListener("click",()=>{const fields=["name","description","category","price","approved"];const csv=[fields.join(","),...menuItems.map(x=>fields.map(k=>'"'+String(k==="approved"?!!x[k]:x[k]??"").replace(/"/g,'""')+'"').join(","))].join("\n");download("mathara-reviewed-menu.csv",csv,"text/csv");$("reviewStatus").textContent="Reviewed menu CSV exported; it is not published."});
-$("preview").addEventListener("click",()=>{const approved=menuItems.filter(x=>x.approved);$("previewContent").innerHTML=approved.length?approved.map(x=>'<div style="display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #294363;padding:9px 0"><div><b style="font-size:.8rem">'+esc(x.name)+'</b><div style="font-size:.68rem;color:#9aacc7">'+esc(x.description)+'</div></div><b style="color:#50dcec;font-size:.78rem">'+esc($("currency").value)+' '+Number(x.price).toFixed(2)+'</b></div>').join(""):'<p style="color:#9aacc7;font-size:.75rem">No merchant-approved items yet. Mark individual items approved to preview them.</p>';$("previewBox").classList.remove("hidden")});
-$("closePreview").addEventListener("click",()=>$("previewBox").classList.add("hidden"));
-$("year").textContent=new Date().getFullYear();
-$("siteUrl").addEventListener("change",()=>{$("businessStatus").textContent=validUrl()?"Valid public URL reference saved in this draft. No site request was made.":"Enter a valid http or https website URL."});
-render();
-</script>
+<script type="module" src="./app.js"></script>
 </body></html>
