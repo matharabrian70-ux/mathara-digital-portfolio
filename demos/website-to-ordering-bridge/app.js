@@ -232,7 +232,7 @@ $("exportCsv").addEventListener("click", () => {
     ...menuItems.map(item => fields.map(field => csvCell(
       field === "validationErrors" ? validateMenuItem(item).join("; ") : item[field]
     )).join(","))
-  ].join("\\n");
+  ].join("\n");
   download("mathara-reviewed-menu.csv", csv, "text/csv");
   $("reviewStatus").textContent = "Reviewed menu CSV exported; it is not published.";
 });
