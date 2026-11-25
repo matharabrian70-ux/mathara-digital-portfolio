@@ -1,0 +1,157 @@
+{
+  "brand": "Mathara Digitals",
+  "brand_legacy": [
+    "DevPortfolio Pro",
+    "Mathara Digital"
+  ],
+  "updated_on": "2026-11-25",
+  "purpose": "Company product catalogue; not a verified live checkout feed.",
+  "rules": {
+    "preserve_existing_whop_products": true,
+    "delete_existing_products": false,
+    "publish_new_products_only_after_owner_account_and_delivery_verification": true,
+    "public_website_url_alone_authorizes_no_changes_to_merchant_website": true,
+    "no_merchant_password_collection": true
+  },
+  "products": [
+    {
+      "name": "Restaurant Direct Ordering System",
+      "category": "restaurant",
+      "kind": "hosted-software",
+      "status": "in_development",
+      "checkout_enabled": false,
+      "delivery": "Pending production database, payment/webhook, tenant-isolation and end-to-end verification."
+    },
+    {
+      "name": "Website-to-Ordering Bridge",
+      "category": "restaurant",
+      "kind": "integration-onboarding",
+      "status": "roadmap",
+      "checkout_enabled": false,
+      "delivery": "Public-site discovery to reviewable draft; merchant approval and separately authorized integration required."
+    },
+    {
+      "name": "Restaurant Ops Command Center",
+      "category": "restaurant",
+      "kind": "hosted-software",
+      "status": "in_development",
+      "checkout_enabled": false
+    },
+    {
+      "name": "Direct-Ordering Readiness Toolkit",
+      "category": "restaurant",
+      "kind": "downloadable-toolkit",
+      "status": "prepared_locally",
+      "checkout_enabled": false,
+      "assets": [
+        "PDF",
+        "editable DOCX"
+      ]
+    },
+    {
+      "name": "Menu Engineering & Profitability Workbook",
+      "category": "restaurant",
+      "kind": "spreadsheet-workbook",
+      "status": "prepared_locally",
+      "checkout_enabled": false,
+      "assets": [
+        "XLSX"
+      ]
+    },
+    {
+      "name": "Restaurant Manager SOP Pack",
+      "category": "restaurant",
+      "kind": "downloadable-toolkit",
+      "status": "prepared_locally",
+      "checkout_enabled": false,
+      "assets": [
+        "PDF",
+        "editable DOCX"
+      ]
+    },
+    {
+      "name": "QR Menu & Ordering Launch Kit",
+      "category": "restaurant",
+      "kind": "launch-system",
+      "status": "roadmap",
+      "checkout_enabled": false
+    },
+    {
+      "name": "Hospitality Website Conversion System",
+      "category": "hospitality",
+      "kind": "website-system",
+      "status": "in_development",
+      "checkout_enabled": false
+    },
+    {
+      "name": "Hospitality Multi-Branch Control",
+      "category": "hospitality",
+      "kind": "operations-software",
+      "status": "roadmap",
+      "checkout_enabled": false
+    },
+    {
+      "name": "Client Delivery OS",
+      "category": "business",
+      "kind": "operations-software",
+      "status": "existing_catalogue_entry_requires_verification",
+      "preserve_existing_whop_listing": true
+    },
+    {
+      "name": "Agency Revenue OS",
+      "category": "business",
+      "kind": "operations-software",
+      "status": "existing_catalogue_entry_requires_verification",
+      "preserve_existing_whop_listing": true
+    },
+    {
+      "name": "Revenue Intelligence Workbench",
+      "category": "business",
+      "kind": "business-intelligence",
+      "status": "roadmap",
+      "checkout_enabled": false
+    },
+    {
+      "name": "Digital Product Seller OS",
+      "category": "business",
+      "kind": "existing-digital-product",
+      "status": "existing_catalogue_entry_requires_verification",
+      "preserve_existing_whop_listing": true
+    },
+    {
+      "name": "Landing Page Conversion Sprint",
+      "category": "business",
+      "kind": "existing-digital-product",
+      "status": "existing_catalogue_entry_requires_verification",
+      "preserve_existing_whop_listing": true
+    },
+    {
+      "name": "Small Business Operating System",
+      "category": "business",
+      "kind": "existing-digital-product",
+      "status": "existing_catalogue_entry_requires_verification",
+      "preserve_existing_whop_listing": true
+    },
+    {
+      "name": "DevPortfolio Pro UI Kit",
+      "category": "legacy",
+      "kind": "existing-digital-product",
+      "status": "legacy_title_preserve_until_verified",
+      "preserve_existing_whop_listing": true
+    },
+    {
+      "name": "Restaurant Ordering OS",
+      "category": "legacy",
+      "kind": "existing-digital-product",
+      "status": "existing_catalogue_entry_requires_verification",
+      "preserve_existing_whop_listing": true
+    },
+    {
+      "name": "Freelancer Money OS",
+      "category": "legacy",
+      "kind": "historical-catalogue-reference",
+      "status": "unverified_not_confirmed_live",
+      "preserve_existing_whop_listing_if_found": true
+    }
+  ]
+}
