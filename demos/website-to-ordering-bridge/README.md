@@ -18,7 +18,7 @@ This prototype does not crawl or fetch a website, connect to a restaurant accoun
 
 The prototype only supports item name/price review. Options and modifiers, tax rules, delivery areas, availability and image rights are not fully captured or verified and require separate merchant confirmation before any production workflow.
 
-No merchant passwords or payment credentials are requested or collected. Exported data is labelled \`review-draft-only\` and is not publishable.
+No merchant passwords or payment credentials are requested or collected. Exported data is labelled `review-draft-only` and is not publishable.
 
 ## Local tests
 
@@ -26,4 +26,4 @@ Run the pure validation tests with Node.js:
 
     node --test draft-model.test.mjs
 
-Open \`index.html\` in a modern browser to try the prototype. The HTML imports \`app.js\` and \`draft-model.js\` as local ES modules.
+Open `index.html` in a modern browser to try the prototype. The HTML imports `app.js` and `draft-model.js` as local ES modules.
