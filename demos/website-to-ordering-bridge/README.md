@@ -22,8 +22,18 @@ No merchant passwords or payment credentials are requested or collected. Exporte
 
 ## Local tests
 
-Run the pure validation tests with Node.js:
+Requirements: Node.js 22 or later and Python 3 (for the static local web server).
 
-    node --test draft-model.test.mjs
+Run the pure validation tests:
 
-Open `index.html` in a modern browser to try the prototype. The HTML imports `app.js` and `draft-model.js` as local ES modules.
+```bash
+npm test
+```
+
+Serve the prototype locally so the ES modules load correctly:
+
+```bash
+python -m http.server 8000
+```
+
+Open `http://localhost:8000` in a modern browser. The page imports `app.js` and `draft-model.js` as local ES modules.
