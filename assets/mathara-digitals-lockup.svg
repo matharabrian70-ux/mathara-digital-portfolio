@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 132" role="img" aria-labelledby="title desc">
+  <title id="title">Mathara Digitals</title>
+  <desc id="desc">Mathara Digitals — digital systems, software and automation.</desc>
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f8cff"/>
+      <stop offset=".58" stop-color="#2677fa"/>
+      <stop offset="1" stop-color="#38d8e8"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#1c4ed8"/>
+      <stop offset="1" stop-color="#53e1ee"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(8 8)">
+    <rect x="0" y="0" width="116" height="116" rx="28" fill="#0b1428" stroke="#284a7e" stroke-width="2"/>
+    <path d="M23 83V32h14l21 25 21-25h14v51H78V55L58 78 38 55v28H23Z" fill="url(#g1)"/>
+    <path d="M59 78 78 55v28h15V32h-9L59 60 37 32h-1v17l23 29Z" fill="url(#g2)" opacity=".96"/>
+    <circle cx="94" cy="23" r="5" fill="#51dfee"/>
+    <path d="M87 25 78 34" stroke="#51dfee" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="146" y="61" fill="#f4f7ff" font-family="Inter,Manrope,Arial,sans-serif" font-size="42" font-weight="800" letter-spacing="1.4">MATHARA</text>
+  <text x="146" y="101" fill="#55dceb" font-family="Inter,Manrope,Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="7">DIGITALS</text>
+  <text x="443" y="99" fill="#8fa7c8" font-family="Inter,Arial,sans-serif" font-size="10" letter-spacing="1.6"></text>
+</svg>
