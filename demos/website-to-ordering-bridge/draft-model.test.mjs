@@ -7,7 +7,7 @@ test("parses quoted commas, escaped quotes and CRLF rows", () => {
     "name,price,description,category",
     '"Burger, Classic",850,"The chef said ""fresh"" daily",Mains',
     '"Iced Tea",120,"Lemon, mint and ice",Drinks'
-  ].join("\\r\\n");
+  ].join("\r\n");
   const items = parseMenuCsv(csv);
   assert.equal(items.length, 2);
   assert.equal(items[0].name, "Burger, Classic");
@@ -24,7 +24,7 @@ test("retains rows with missing, non-numeric or negative prices for review", () 
     "Soda,abc,Soft drink,Drinks",
     "Juice,-5,Fresh juice,Drinks",
     ",120,Unnamed item,Other"
-  ].join("\\n");
+  ].join("\n");
   const items = parseMenuCsv(csv);
   assert.equal(items.length, 4);
   assert.equal(items[0].price, null);
@@ -38,11 +38,11 @@ test("retains rows with missing, non-numeric or negative prices for review", () 
 });
 
 test("rejects CSV without required headers", () => {
-  assert.throws(() => parseMenuCsv("name,description\\nTea,Hot drink"), /columns: name, price/);
+  assert.throws(() => parseMenuCsv("name,description\nTea,Hot drink"), /columns: name, price/);
 });
 
 test("rejects an unclosed quoted field", () => {
-  assert.throws(() => parseMenuCsv('name,price\\n"Tea,120'), /unclosed quoted field/);
+  assert.throws(() => parseMenuCsv('name,price\n"Tea,120'), /unclosed quoted field/);
 });
 
 test("approval requires a non-empty name and finite non-negative numeric price", () => {
