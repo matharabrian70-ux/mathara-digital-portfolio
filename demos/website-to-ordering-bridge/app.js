@@ -1,4 +1,11 @@
-import { buildReviewDraft, canApproveMenuItem, parseMenuCsv, validateMenuItem } from "./draft-model.js";
+import {
+  MAX_MENU_CSV_BYTES,
+  buildReviewDraft,
+  canApproveMenuItem,
+  parseMenuCsv,
+  reviewedMenuToCsv,
+  validateMenuItem
+} from "./draft-model.js";
 
 const $ = id => document.getElementById(id);
 let menuItems = [];
@@ -81,13 +88,16 @@ function render() {
       const status = itemStatus(item);
       const approved = Boolean(item.approved) && status.errors.length === 0;
       if (!approved) item.approved = false;
+      const priceInput = typeof item.sourcePriceText === "string" && item.sourcePriceText !== ""
+        ? item.sourcePriceText
+        : (item.price ?? "");
       return '<article class="item" data-index="' + index + '">' +
         '<div class="itemhead"><strong>Item ' + String(index + 1).padStart(2, "0") + '</strong>' +
         '<span class="item-status ' + status.className + '">' + status.label + '</span></div>' +
         '<div class="itemgrid">' +
         '<input aria-label="Item name" data-field="name" value="' + esc(item.name) + '" placeholder="Item name">' +
         '<input aria-label="Category" data-field="category" value="' + esc(item.category) + '" placeholder="Category">' +
-        '<input aria-label="Price" data-field="price" type="number" min="0" step=".01" value="' + esc(item.price ?? "") + '" placeholder="Price">' +
+        '<input aria-label="Price" data-field="price" type="number" min="0" step=".01" value="' + esc(priceInput) + '" placeholder="Price">' +
         '</div>' +
         '<textarea aria-label="Item description" data-field="description" placeholder="Description">' + esc(item.description) + '</textarea>' +
         '<small data-validation style="display:block;margin-top:8px;color:' + (status.errors.length ? '#f4c879' : '#9aabc6') + ';font-size:.68rem;line-height:1.5">' + esc(validationText(item)) + '</small>' +
@@ -117,7 +127,9 @@ function render() {
 
       if (field === "price") {
         const raw = event.target.value.trim();
-        item.price = raw === "" ? null : Number(raw);
+        item.sourcePriceText = raw;
+        item.price = raw === "" ? null : raw;
+        item.priceMinor = null;
       } else {
         item[field] = event.target.value;
       }
@@ -164,7 +176,7 @@ function clearDraft() {
 }
 
 function addItem() {
-  menuItems.push({ name: "", description: "", category: "", price: null, approved: false });
+  menuItems.push({ name: "", description: "", category: "", price: null, sourcePriceText: "", approved: false });
   render();
 }
 
@@ -173,8 +185,10 @@ function download(name, content, type) {
   const url = URL.createObjectURL(new Blob([content], { type }));
   anchor.href = url;
   anchor.download = name;
+  document.body.appendChild(anchor);
   anchor.click();
-  URL.revokeObjectURL(url);
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function draftData() {
@@ -193,10 +207,6 @@ function draftData() {
   });
 }
 
-function csvCell(value) {
-  return '"' + String(value ?? "").replace(/"/g, '""') + '"';
-}
-
 $("sample").addEventListener("click", loadSample);
 $("clear").addEventListener("click", clearDraft);
 $("addItem").addEventListener("click", addItem);
@@ -208,7 +218,10 @@ $("import").addEventListener("click", async () => {
     return;
   }
   try {
-    menuItems = parseMenuCsv(await file.text());
+    if (!file.name.toLowerCase().endsWith(".csv")) throw new Error("Choose a file with a .csv extension.");
+    if (file.size > MAX_MENU_CSV_BYTES) throw new Error("CSV exceeds the 2 MiB file-size limit.");
+    const csvText = await file.text();
+    menuItems = parseMenuCsv(csvText);
     const needsInput = menuItems.filter(item => !canApproveMenuItem(item)).length;
     $("businessStatus").textContent = "Imported " + menuItems.length + " rows locally. " + needsInput + " need input or correction; no website was fetched.";
     $("reviewStatus").textContent = "Every imported row remains unapproved. Missing or invalid names/prices are retained and flagged, not silently discarded.";
@@ -226,25 +239,21 @@ $("exportJson").addEventListener("click", () => {
 });
 
 $("exportCsv").addEventListener("click", () => {
-  const fields = ["name", "description", "category", "price", "approved", "validationErrors", "sourceRow"];
-  const csv = [
-    fields.join(","),
-    ...menuItems.map(item => fields.map(field => csvCell(
-      field === "validationErrors" ? validateMenuItem(item).join("; ") : item[field]
-    )).join(","))
-  ].join("\n");
-  download("mathara-reviewed-menu.csv", csv, "text/csv");
-  $("reviewStatus").textContent = "Reviewed menu CSV exported; it is not published.";
+  download("mathara-reviewed-menu.csv", reviewedMenuToCsv(menuItems), "text/csv");
+  $("reviewStatus").textContent = "Reviewed menu CSV exported; formula-like cells are prefixed to reduce spreadsheet execution risk. It is not published.";
 });
 
 $("preview").addEventListener("click", () => {
   const approved = menuItems.filter(item => item.approved && canApproveMenuItem(item));
   $("previewContent").innerHTML = approved.length
-    ? approved.map(item =>
-      '<div style="display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #294363;padding:9px 0">' +
-      '<div><b style="font-size:.8rem">' + esc(item.name) + '</b><div style="font-size:.68rem;color:#9aacc7">' + esc(item.description) + '</div></div>' +
-      '<b style="color:#50dcec;font-size:.78rem">' + esc($("currency").value) + ' ' + Number(item.price).toFixed(2) + '</b></div>'
-    ).join("")
+    ? approved.map(item => {
+      const displayPrice = typeof item.sourcePriceText === "string" && item.sourcePriceText.trim() !== ""
+        ? item.sourcePriceText
+        : String(item.price);
+      return '<div style="display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #294363;padding:9px 0">' +
+        '<div><b style="font-size:.8rem">' + esc(item.name) + '</b><div style="font-size:.68rem;color:#9aacc7">' + esc(item.description) + '</div></div>' +
+        '<b style="color:#50dcec;font-size:.78rem">' + esc($("currency").value) + ' ' + esc(displayPrice) + '</b></div>';
+    }).join("")
     : '<p style="color:#9aacc7;font-size:.75rem">No complete, merchant-reviewed items yet. Complete the name and price, then confirm each item.</p>';
   $("previewBox").classList.remove("hidden");
 });
